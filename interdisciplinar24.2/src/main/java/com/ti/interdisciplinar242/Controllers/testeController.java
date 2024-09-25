@@ -2,10 +2,9 @@ package com.ti.interdisciplinar242.Controllers;
 
 
 
-import com.ti.interdisciplinar242.DTOs.LoginUsuarioDto;
-import com.ti.interdisciplinar242.DTOs.UsuarioDto;
-import com.ti.interdisciplinar242.Interfaces.UsuarioInterface;
-import com.ti.interdisciplinar242.Models.UsuarioModel;
+import com.ti.interdisciplinar242.DTOs.testelogin;
+import com.ti.interdisciplinar242.DTOs.testeDto;
+import com.ti.interdisciplinar242.Interfaces.teste;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,32 +19,32 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController {
+public class testeController {
 
     //construtor de outras classes
     @Autowired
-    UsuarioInterface usuarioInterface;
+    teste teste;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     //
     @PostMapping
-    public ResponseEntity<UsuarioModel> cadastroUsuario(@RequestBody @Valid UsuarioDto usuarioDto){
-        var usuarioModel = new UsuarioModel();
-        BeanUtils.copyProperties(usuarioDto,usuarioModel);
-        usuarioModel.setSenha(passwordEncoder.encode(usuarioDto.senha()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioInterface.save(usuarioModel));
+    public ResponseEntity<com.ti.interdisciplinar242.Models.teste> cadastroUsuario(@RequestBody @Valid testeDto testeDto){
+        var usuarioModel = new com.ti.interdisciplinar242.Models.teste();
+        BeanUtils.copyProperties(testeDto,usuarioModel);
+        usuarioModel.setSenha(passwordEncoder.encode(testeDto.senha()));
+        return ResponseEntity.status(HttpStatus.CREATED).body(teste.save(usuarioModel));
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUsuario(@RequestBody @Valid LoginUsuarioDto loginUsuarioDto){
-        Optional<UsuarioModel> usuariologin = usuarioInterface.findByLogin(loginUsuarioDto.login());
+    public ResponseEntity<String> loginUsuario(@RequestBody @Valid testelogin testelogin){
+        Optional<com.ti.interdisciplinar242.Models.teste> usuariologin = teste.findByLogin(testelogin.login());
         if (usuariologin.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar este usuário no sistema, verifique se escreveu corretamente.");
         }
-        if (!passwordEncoder.matches(loginUsuarioDto.senha(), usuariologin.get().getSenha())){
+        if (!passwordEncoder.matches(testelogin.senha(), usuariologin.get().getSenha())){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Login ou senha incorreto, verifique se escreveu corretamente.");
         }
         return ResponseEntity.ok("Login realizado com sucesso.");
@@ -53,13 +52,13 @@ public class UsuarioController {
 
 
     @GetMapping
-    public ResponseEntity<List<UsuarioModel>> puxarTodosUsuarios(){
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioInterface.findAll());
+    public ResponseEntity<List<com.ti.interdisciplinar242.Models.teste>> puxarTodosUsuarios(){
+        return ResponseEntity.status(HttpStatus.OK).body(teste.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> puxarUmUsuario(@PathVariable(value = "id")UUID id){
-        Optional<UsuarioModel> usuario = usuarioInterface.findById(id);
+        Optional<com.ti.interdisciplinar242.Models.teste> usuario = teste.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
@@ -68,23 +67,23 @@ public class UsuarioController {
 
     @PutMapping("/{id}")
     public  ResponseEntity<Object> atualizaUsuario(@PathVariable(value = "id") UUID id,
-                                                   @RequestBody @Valid UsuarioDto usuarioDto){
-        Optional<UsuarioModel> usuario = usuarioInterface.findById(id);
+                                                   @RequestBody @Valid testeDto testeDto){
+        Optional<com.ti.interdisciplinar242.Models.teste> usuario = teste.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
         var usuarioModel = usuario.get();
-        BeanUtils.copyProperties(usuarioDto,usuarioModel);
-        return ResponseEntity.status(HttpStatus.OK).body(usuarioInterface.save(usuarioModel));
+        BeanUtils.copyProperties(testeDto,usuarioModel);
+        return ResponseEntity.status(HttpStatus.OK).body(teste.save(usuarioModel));
     }
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<Object> deletaUsuario(@PathVariable(value = "id") UUID id) {
-        Optional<UsuarioModel> usuario = usuarioInterface.findById(id);
+        Optional<com.ti.interdisciplinar242.Models.teste> usuario = teste.findById(id);
         if (usuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
-        usuarioInterface.delete(usuario.get());
+        teste.delete(usuario.get());
         return ResponseEntity.status(HttpStatus.OK).body("Usuario Deletado👌");
     }
 

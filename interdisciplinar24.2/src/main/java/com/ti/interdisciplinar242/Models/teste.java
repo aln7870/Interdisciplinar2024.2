@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "usuario")
-public class UsuarioModel {
+public class teste {
 
     private static final long serialVersionUID = 1L;
 
