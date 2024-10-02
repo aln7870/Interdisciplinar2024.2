@@ -4,7 +4,8 @@ package com.ti.interdisciplinar242.Controllers;
 
 import com.ti.interdisciplinar242.DTOs.testelogin;
 import com.ti.interdisciplinar242.DTOs.testeDto;
-import com.ti.interdisciplinar242.Interfaces.teste;
+import com.ti.interdisciplinar242.Interfaces.TesteInterface;
+import com.ti.interdisciplinar242.Models.TesteModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,29 +19,39 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/teste")
 public class testeController {
 
     //construtor de outras classes
     @Autowired
-    teste teste;
+    TesteInterface TesteInterface;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    //
+
+
+/*      (Alan) - ainda to testando essa personalização da resposta mas caso n pegue vou criar exceptions
+    @Operation(description = "Personalizando requisições")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cadastro feito com sucesso"),
+            @ApiResponse(responseCode = "422", description = "Dados invalidos"),
+            @ApiResponse(responseCode = "400", description = "Parametros invalidos"),
+            @ApiResponse(responseCode = "401", description = "usuario não encontrado"),
+            @ApiResponse(responseCode = "500", description = "Erro ao fazer o upload"),
+    })*/
     @PostMapping
-    public ResponseEntity<com.ti.interdisciplinar242.Models.teste> cadastroUsuario(@RequestBody @Valid testeDto testeDto){
-        var usuarioModel = new com.ti.interdisciplinar242.Models.teste();
+    public ResponseEntity<TesteModel> cadastroUsuario(@RequestBody @Valid testeDto testeDto){
+        var usuarioModel = new TesteModel();
         BeanUtils.copyProperties(testeDto,usuarioModel);
         usuarioModel.setSenha(passwordEncoder.encode(testeDto.senha()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(teste.save(usuarioModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(TesteInterface.save(usuarioModel));
     }
 
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUsuario(@RequestBody @Valid testelogin testelogin){
-        Optional<com.ti.interdisciplinar242.Models.teste> usuariologin = teste.findByLogin(testelogin.login());
+        Optional<TesteModel> usuariologin = TesteInterface.findByLogin(testelogin.login());
         if (usuariologin.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar este usuário no sistema, verifique se escreveu corretamente.");
         }
@@ -52,13 +63,13 @@ public class testeController {
 
 
     @GetMapping
-    public ResponseEntity<List<com.ti.interdisciplinar242.Models.teste>> puxarTodosUsuarios(){
-        return ResponseEntity.status(HttpStatus.OK).body(teste.findAll());
+    public ResponseEntity<List<TesteModel>> puxarTodosUsuarios(){
+        return ResponseEntity.status(HttpStatus.OK).body(TesteInterface.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> puxarUmUsuario(@PathVariable(value = "id")UUID id){
-        Optional<com.ti.interdisciplinar242.Models.teste> usuario = teste.findById(id);
+        Optional<TesteModel> usuario = TesteInterface.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
@@ -68,22 +79,22 @@ public class testeController {
     @PutMapping("/{id}")
     public  ResponseEntity<Object> atualizaUsuario(@PathVariable(value = "id") UUID id,
                                                    @RequestBody @Valid testeDto testeDto){
-        Optional<com.ti.interdisciplinar242.Models.teste> usuario = teste.findById(id);
+        Optional<TesteModel> usuario = TesteInterface.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
         var usuarioModel = usuario.get();
         BeanUtils.copyProperties(testeDto,usuarioModel);
-        return ResponseEntity.status(HttpStatus.OK).body(teste.save(usuarioModel));
+        return ResponseEntity.status(HttpStatus.OK).body(TesteInterface.save(usuarioModel));
     }
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<Object> deletaUsuario(@PathVariable(value = "id") UUID id) {
-        Optional<com.ti.interdisciplinar242.Models.teste> usuario = teste.findById(id);
+        Optional<TesteModel> usuario = TesteInterface.findById(id);
         if (usuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
-        teste.delete(usuario.get());
+        TesteInterface.delete(usuario.get());
         return ResponseEntity.status(HttpStatus.OK).body("Usuario Deletado👌");
     }
 

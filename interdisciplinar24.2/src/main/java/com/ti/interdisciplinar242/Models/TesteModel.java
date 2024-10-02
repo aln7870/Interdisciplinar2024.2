@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "usuario")
-public class teste {
+@Table(name = "teste")
+public class TesteModel {
 
     private static final long serialVersionUID = 1L;
 
