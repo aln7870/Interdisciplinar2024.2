@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-
+//permite a requisição de qualquer ip
+//por enquanto deixar como comentário até a hr de testar com o front.
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/teste")
 public class testeController {
@@ -32,10 +33,11 @@ public class testeController {
 
 
 /*      (Alan) - ainda to testando essa personalização da resposta mas caso n pegue vou criar exceptions
-    @Operation(description = "Personalizando requisições")
+    @Operation(description = "Personalizando respostas")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Cadastro feito com sucesso"),
             @ApiResponse(responseCode = "422", description = "Dados invalidos"),
+            @ApiResponse(responseCode = "404", description = "parametro errado jumento"),
             @ApiResponse(responseCode = "400", description = "Parametros invalidos"),
             @ApiResponse(responseCode = "401", description = "usuario não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro ao fazer o upload"),
@@ -46,6 +48,7 @@ public class testeController {
         BeanUtils.copyProperties(testeDto,usuarioModel);
         usuarioModel.setSenha(passwordEncoder.encode(testeDto.senha()));
         return ResponseEntity.status(HttpStatus.CREATED).body(TesteInterface.save(usuarioModel));
+        
     }
 
 

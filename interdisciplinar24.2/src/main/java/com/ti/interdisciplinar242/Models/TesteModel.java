@@ -2,13 +2,22 @@ package com.ti.interdisciplinar242.Models;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "teste")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class TesteModel {
-
+//todo o model,interface,controller etc com o nome *TESTE*
+// não deve ser considerado, apenas serve para teste e aprendizado.
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -21,53 +30,12 @@ public class TesteModel {
     @Column(nullable = false)
     private int idade;
 
+    private String email;
+
     @Column(nullable = false)
     private String login;
 
     @Column(nullable = false)
     private String senha;
-
-    
-    public UUID getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(UUID idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-
 
 }

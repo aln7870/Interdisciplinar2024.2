@@ -14,6 +14,7 @@ public class SecurityConfig{
 
     //autorizando qualquer requisicao http para facilitar os testes
     // lembrar de desativar quando finalizar o projeto.
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
