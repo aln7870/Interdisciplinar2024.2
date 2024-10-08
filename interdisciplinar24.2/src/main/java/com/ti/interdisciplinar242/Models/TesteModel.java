@@ -18,11 +18,12 @@ import java.util.UUID;
 public class TesteModel {
 //todo o model,interface,controller etc com o nome *TESTE*
 // não deve ser considerado, apenas serve para teste e aprendizado.
-    private static final long serialVersionUID = 1L;
+
+
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID idUsuario;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer idUsuario;
 
     @Column(nullable = false)
     private String nome;

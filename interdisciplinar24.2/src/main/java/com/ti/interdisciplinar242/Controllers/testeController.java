@@ -71,7 +71,7 @@ public class testeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> puxarUmUsuario(@PathVariable(value = "id")UUID id){
+    public ResponseEntity<Object> puxarUmUsuario(@PathVariable(value = "id")Integer id){
         Optional<TesteModel> usuario = TesteInterface.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
@@ -80,7 +80,7 @@ public class testeController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity<Object> atualizaUsuario(@PathVariable(value = "id") UUID id,
+    public  ResponseEntity<Object> atualizaUsuario(@PathVariable(value = "id") Integer id,
                                                    @RequestBody @Valid testeDto testeDto){
         Optional<TesteModel> usuario = TesteInterface.findById(id);
         if (usuario.isEmpty()){
@@ -92,7 +92,7 @@ public class testeController {
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Object> deletaUsuario(@PathVariable(value = "id") UUID id) {
+    public  ResponseEntity<Object> deletaUsuario(@PathVariable(value = "id") Integer id) {
         Optional<TesteModel> usuario = TesteInterface.findById(id);
         if (usuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
