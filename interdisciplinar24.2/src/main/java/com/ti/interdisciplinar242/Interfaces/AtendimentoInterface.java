@@ -4,15 +4,12 @@ import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface AtendimentoInterface extends JpaRepository<AtendimentoModel, Integer> {
 //    List<AtendimentoModel> findByPacienteNome(String nome);
     List<AtendimentoModel> findByStatus(char status);
-    List<AtendimentoModel> findByDataAtendimentoBetween(Date startDate, Date endDate);
+    List<AtendimentoModel> findByDataAtendimentoBetween(LocalDateTime startDate, LocalDateTime endDate);
     Optional<AtendimentoModel> findByPrestadorCodPrestador(Integer prestador);
 
 }

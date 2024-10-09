@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,7 +32,7 @@ public class PrestadorController {
     public ResponseEntity<PrestadorModel> cadastroPrestador(@RequestBody @Valid PrestadorDto prestadorDto) {
         var prestadorModel = new PrestadorModel();
         BeanUtils.copyProperties(prestadorDto, prestadorModel);
-        prestadorModel.setDatacriacao(new java.util.Date()); // Setando a data de criação como a data atual
+        prestadorModel.setDatacriacao(LocalDateTime.now()); // Setando a data de criação como a data atual
 
         // Buscar o TipoPrestador pelo nome da função
         Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorInterface.findByFuncao(prestadorDto.funcao());

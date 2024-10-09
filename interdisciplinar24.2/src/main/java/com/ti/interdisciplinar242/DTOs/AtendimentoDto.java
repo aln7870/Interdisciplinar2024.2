@@ -9,11 +9,10 @@ public record AtendimentoDto(
 //                            @NotNull int codPaciente,
 //                             @NotNull int codDente,
                              @NotNull Integer codPrestador,
-                             @NotNull Date dataAtendimento,
+                             LocalDateTime dataAtendimento,
                              String observacoes,
                              @NotNull TipoStatus tipoStatus,
-                             @NotNull char status,
-                             @NotNull Date dataCriacao) { }
+                             @NotNull char status) { }
 
 
 

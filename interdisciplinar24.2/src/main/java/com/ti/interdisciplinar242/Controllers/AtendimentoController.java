@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,8 +39,12 @@ public class AtendimentoController {
         atendimento.setObservacoes(atendimentoDto.observacoes());
         atendimento.setTipoStatus(atendimentoDto.tipoStatus());
         atendimento.setStatus(atendimentoDto.status());
-        atendimento.setDataCriacao(atendimentoDto.dataCriacao());
         atendimento.setPrestador(prestador);
+
+        // Se quiser que a data de atendimento também seja a atual, caso não tenha sido fornecida
+        if (atendimento.getDataAtendimento() == null) {
+            atendimento.setDataAtendimento(LocalDateTime.now());
+        }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(AtendimentoInterface.save(atendimento));
     }

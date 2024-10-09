@@ -39,7 +39,7 @@ public class AtendimentoModel {
     private PrestadorModel prestador;
 
     @Column(name = "DataAtendimento", nullable = false)
-    private Date dataAtendimento;
+    private LocalDateTime dataAtendimento;
 
     @Column(name = "Observacoes", columnDefinition = "TEXT")
     private String observacoes;
@@ -51,9 +51,7 @@ public class AtendimentoModel {
     @Column(name = "Status", nullable = false, length = 1)
     private char status;
 
-    @Column(name = "DataCriacao", nullable = false)
-    private Date dataCriacao;
-
+//teste
 //    public PacienteModel getPaciente() {
 //        return paciente;
 //    }
@@ -77,4 +75,7 @@ public class AtendimentoModel {
 //    public void setImagens(ImagensRadiologicasModel imagens) {
 //        this.imagens = imagens;
 //    }
+
+
+
 }
