@@ -45,6 +45,7 @@ public class testeController {
     @PostMapping
     public ResponseEntity<TesteModel> cadastroUsuario(@RequestBody @Valid testeDto testeDto){
         var usuarioModel = new TesteModel();
+
         BeanUtils.copyProperties(testeDto,usuarioModel);
         usuarioModel.setSenha(passwordEncoder.encode(testeDto.senha()));
         return ResponseEntity.status(HttpStatus.CREATED).body(TesteInterface.save(usuarioModel));

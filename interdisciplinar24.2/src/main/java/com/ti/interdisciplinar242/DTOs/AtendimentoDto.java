@@ -1,9 +1,8 @@
 package com.ti.interdisciplinar242.DTOs;
-import com.ti.interdisciplinar242.Models.TipoStatus;
+import com.ti.interdisciplinar242.Enums.TipoStatus;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+
 import java.util.Date;
-import java.util.UUID;
 
 public record AtendimentoDto(
 //                            @NotNull int codPaciente,

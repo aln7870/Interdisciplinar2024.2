@@ -1,14 +1,13 @@
 package com.ti.interdisciplinar242.Models;
 
+import com.ti.interdisciplinar242.Enums.TipoStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.UUID;
 
 @Entity
 @Table(name = "atendimento")

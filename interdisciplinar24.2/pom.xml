@@ -65,6 +65,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- teste do oauth2 caua-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
 		<!--Swagger doc web -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
