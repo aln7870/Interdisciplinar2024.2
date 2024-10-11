@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuario")
@@ -35,7 +36,7 @@ import java.util.List;
     PRIMARY KEY (CodUsuario)
 );*/
 /**/
-public class UsuarioModel implements UserDetails {
+public class UsuarioModel{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,8 +49,8 @@ public class UsuarioModel implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    @Enumerated(EnumType.STRING)
-    private UsuarioEnum role;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<RoleModel> roles;
 /*
     @Column(unique = true,length = 100)
     private String email;
@@ -76,51 +77,10 @@ public class UsuarioModel implements UserDetails {
         }
     }
 */
-    public UsuarioModel(String login, String senha, UsuarioEnum role){
+    public UsuarioModel(String login, String senha, Set<RoleModel> roles){
         this.login = login;
         this.senha = senha;
-        this.role = role;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == UsuarioEnum.ADMIN){
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
-                new SimpleGrantedAuthority("ROLE_DENTISTA"), new SimpleGrantedAuthority("ROLE_RECEPCIONISTA"));
-    }else if (this.role == UsuarioEnum.DENTISTA){
-            return List.of(new SimpleGrantedAuthority("ROLE_DENTISTA"));
-    }else
-        return List.of(new SimpleGrantedAuthority("ROLE_RECEPCIONISTA"));
-    }
-
-    @Override
-    public String getPassword() {
-        return senha;
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        this.roles = roles;
     }
 
 
