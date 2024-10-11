@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 @Entity
@@ -25,7 +26,7 @@ public class PrestadorModel {
     private String nomePrestador;
 
     @Column(name = "DataCriacao",nullable = false)
-    private Date datacriacao;
+    private LocalDateTime datacriacao;
 
     @Column(name = "Status",nullable = false)
     private char status;

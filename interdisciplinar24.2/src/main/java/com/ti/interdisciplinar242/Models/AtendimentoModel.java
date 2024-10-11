@@ -25,20 +25,20 @@ public class AtendimentoModel {
 //    @JoinColumn(name = "CodPaciente", nullable = false)
 //    private PacienteModel paciente;
 //
-//    @ManyToOne
-//    @JoinColumn(name = "CodDente")
-//    private DenteModel dente;
+    @ManyToOne
+    @JoinColumn(name = "CodDente")
+    private DenteModel dente;
 
-//    @ManyToOne
-//    @JoinColumn("CodImagensRadiologicas")
-//    private ImagensRadiologicasModel imagens;
+    @ManyToOne
+    @JoinColumn(name = "codImagemRadiologica")
+    private ImagensRadiologicasModel imagens;
 
     @ManyToOne
     @JoinColumn(name = "CodPrestador",nullable = false)
     private PrestadorModel prestador;
 
     @Column(name = "DataAtendimento", nullable = false)
-    private Date dataAtendimento;
+    private LocalDateTime dataAtendimento;
 
     @Column(name = "Observacoes", columnDefinition = "TEXT")
     private String observacoes;
@@ -50,30 +50,7 @@ public class AtendimentoModel {
     @Column(name = "Status", nullable = false, length = 1)
     private char status;
 
-    @Column(name = "DataCriacao", nullable = false)
-    private Date dataCriacao;
 
-//    public PacienteModel getPaciente() {
-//        return paciente;
-//    }
-//
-//    public void setPaciente(PacienteModel paciente) {
-//        this.paciente = paciente;
-//    }
-//
-//    public DenteModel getDente() {
-//        return dente;
-//    }
-//
-//    public void setDente(DenteModel dente) {
-//        this.dente = dente;
-//    }
 
-//    public ImagensRadiologicasModel getImagens() {
-//        return imagens;
-//    }
-//
-//    public void setImagens(ImagensRadiologicasModel imagens) {
-//        this.imagens = imagens;
-//    }
+
 }
