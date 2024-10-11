@@ -34,7 +34,7 @@ import java.util.Set;
     Status CHAR(1) DEFAULT 'A' CHECK (Status IN ('A', 'I')),
 	CodPrestador TINYINT UNSIGNED NOT NULL,
     PRIMARY KEY (CodUsuario)
-);*/
+); */
 /**/
 public class UsuarioModel{
 
