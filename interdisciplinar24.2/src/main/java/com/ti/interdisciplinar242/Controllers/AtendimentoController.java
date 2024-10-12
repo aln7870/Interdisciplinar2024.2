@@ -1,8 +1,8 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.DTOs.AtendimentoDto;
-import com.ti.interdisciplinar242.Interfaces.AtendimentoInterface;
-import com.ti.interdisciplinar242.Interfaces.PrestadorInterface;
+import com.ti.interdisciplinar242.Controllers.DTOs.AtendimentoDto;
+import com.ti.interdisciplinar242.repository.AtendimentoRepository;
+import com.ti.interdisciplinar242.repository.PrestadorRepository;
 import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import com.ti.interdisciplinar242.Models.PrestadorModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -26,12 +25,12 @@ import java.util.UUID;
 public class AtendimentoController {
 
     @Autowired
-    AtendimentoInterface AtendimentoInterface;
+    AtendimentoRepository AtendimentoRepository;
     @Autowired
-    PrestadorInterface prestadorInterface;
+    PrestadorRepository prestadorRepository;
     @PostMapping
     public ResponseEntity<AtendimentoModel> criarAtendimento(@RequestBody @Valid AtendimentoDto atendimentoDto) {
-        PrestadorModel prestador = prestadorInterface.findById(atendimentoDto.codPrestador())
+        PrestadorModel prestador = prestadorRepository.findById(atendimentoDto.codPrestador())
                 .orElseThrow(() -> new EntityNotFoundException("Prestador não encontrado."));
 
         AtendimentoModel atendimento = new AtendimentoModel();
@@ -46,16 +45,16 @@ public class AtendimentoController {
             atendimento.setDataAtendimento(LocalDateTime.now());
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(AtendimentoInterface.save(atendimento));
+        return ResponseEntity.status(HttpStatus.CREATED).body(AtendimentoRepository.save(atendimento));
     }
 
     @GetMapping
     public ResponseEntity<List<AtendimentoModel>> puxarTodosAtendimentos(){
-        return ResponseEntity.status(HttpStatus.OK).body(AtendimentoInterface.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(AtendimentoRepository.findAll());
     }
     @GetMapping("/{id}")
     public ResponseEntity<Object> puxarUmAtendimento(@PathVariable(value = "id") Integer id) {
-        Optional<AtendimentoModel> atendimento = AtendimentoInterface.findById(id);
+        Optional<AtendimentoModel> atendimento = AtendimentoRepository.findById(id);
         if (atendimento.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Atendimento não encontrado");
         }
@@ -65,22 +64,22 @@ public class AtendimentoController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> atualizaAtendimento(@PathVariable(value = "id") Integer id,
                                                       @RequestBody @Valid AtendimentoDto atendimentoDto) {
-        Optional<AtendimentoModel> atendimento = AtendimentoInterface.findById(id);
+        Optional<AtendimentoModel> atendimento = AtendimentoRepository.findById(id);
         if (atendimento.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Atendimento não encontrado");
         }
         var atendimentoModel = atendimento.get();
         BeanUtils.copyProperties(atendimentoDto, atendimentoModel);
-        return ResponseEntity.status(HttpStatus.OK).body(AtendimentoInterface.save(atendimentoModel));
+        return ResponseEntity.status(HttpStatus.OK).body(AtendimentoRepository.save(atendimentoModel));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletaAtendimento(@PathVariable(value = "id") Integer id) {
-        Optional<AtendimentoModel> atendimento = AtendimentoInterface.findById(id);
+        Optional<AtendimentoModel> atendimento = AtendimentoRepository.findById(id);
         if (atendimento.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Atendimento não encontrado");
         }
-        AtendimentoInterface.delete(atendimento.get());
+        AtendimentoRepository.delete(atendimento.get());
         return ResponseEntity.status(HttpStatus.OK).body("Atendimento deletado");
     }
 }

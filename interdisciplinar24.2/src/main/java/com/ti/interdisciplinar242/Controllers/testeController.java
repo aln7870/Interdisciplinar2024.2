@@ -2,9 +2,9 @@ package com.ti.interdisciplinar242.Controllers;
 
 
 
-import com.ti.interdisciplinar242.DTOs.testelogin;
-import com.ti.interdisciplinar242.DTOs.testeDto;
-import com.ti.interdisciplinar242.Interfaces.TesteInterface;
+import com.ti.interdisciplinar242.Controllers.DTOs.testelogin;
+import com.ti.interdisciplinar242.Controllers.DTOs.testeDto;
+import com.ti.interdisciplinar242.repository.TesteRepository;
 import com.ti.interdisciplinar242.Models.TesteModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 //permite a requisição de qualquer ip
 //por enquanto deixar como comentário até a hr de testar com o front.
 //@CrossOrigin(origins = "*")
@@ -25,7 +25,7 @@ public class testeController {
 
     //construtor de outras classes
     @Autowired
-    TesteInterface TesteInterface;
+    TesteRepository TesteRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -48,14 +48,14 @@ public class testeController {
 
         BeanUtils.copyProperties(testeDto,usuarioModel);
         usuarioModel.setSenha(passwordEncoder.encode(testeDto.senha()));
-        return ResponseEntity.status(HttpStatus.CREATED).body(TesteInterface.save(usuarioModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(TesteRepository.save(usuarioModel));
         
     }
 
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUsuario(@RequestBody @Valid testelogin testelogin){
-        Optional<TesteModel> usuariologin = TesteInterface.findByLogin(testelogin.login());
+        Optional<TesteModel> usuariologin = TesteRepository.findByLogin(testelogin.login());
         if (usuariologin.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar este usuário no sistema, verifique se escreveu corretamente.");
         }
@@ -68,12 +68,12 @@ public class testeController {
 
     @GetMapping
     public ResponseEntity<List<TesteModel>> puxarTodosUsuarios(){
-        return ResponseEntity.status(HttpStatus.OK).body(TesteInterface.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(TesteRepository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> puxarUmUsuario(@PathVariable(value = "id")Integer id){
-        Optional<TesteModel> usuario = TesteInterface.findById(id);
+        Optional<TesteModel> usuario = TesteRepository.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
@@ -83,22 +83,22 @@ public class testeController {
     @PutMapping("/{id}")
     public  ResponseEntity<Object> atualizaUsuario(@PathVariable(value = "id") Integer id,
                                                    @RequestBody @Valid testeDto testeDto){
-        Optional<TesteModel> usuario = TesteInterface.findById(id);
+        Optional<TesteModel> usuario = TesteRepository.findById(id);
         if (usuario.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
         var usuarioModel = usuario.get();
         BeanUtils.copyProperties(testeDto,usuarioModel);
-        return ResponseEntity.status(HttpStatus.OK).body(TesteInterface.save(usuarioModel));
+        return ResponseEntity.status(HttpStatus.OK).body(TesteRepository.save(usuarioModel));
     }
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<Object> deletaUsuario(@PathVariable(value = "id") Integer id) {
-        Optional<TesteModel> usuario = TesteInterface.findById(id);
+        Optional<TesteModel> usuario = TesteRepository.findById(id);
         if (usuario.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado😢");
         }
-        TesteInterface.delete(usuario.get());
+        TesteRepository.delete(usuario.get());
         return ResponseEntity.status(HttpStatus.OK).body("Usuario Deletado👌");
     }
 

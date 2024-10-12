@@ -1,6 +1,6 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.Interfaces.FaturamentoInterface;
+import com.ti.interdisciplinar242.repository.FaturamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FaturamentoController {
 
     @Autowired
-    FaturamentoInterface faturamentoInterface;
+    FaturamentoRepository faturamentoRepository;
 }
 
 

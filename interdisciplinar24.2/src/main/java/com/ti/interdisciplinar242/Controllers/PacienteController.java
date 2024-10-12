@@ -1,9 +1,8 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.DTOs.PacienteDto;
-import com.ti.interdisciplinar242.Interfaces.PacienteInterface;
+import com.ti.interdisciplinar242.Controllers.DTOs.PacienteDto;
+import com.ti.interdisciplinar242.repository.PacienteRepository;
 import com.ti.interdisciplinar242.Models.PacienteModel;
-import com.ti.interdisciplinar242.Models.TesteModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
 public class PacienteController {
 
         @Autowired
-    PacienteInterface pacienteInterface;
+        PacienteRepository pacienteRepository;
 
 
         @PostMapping
@@ -28,12 +27,12 @@ public class PacienteController {
             Date dataNascimento = Date.valueOf(pacienteDto.dataNascimento());
             pacienteModel.setDataNascimento(dataNascimento);
             BeanUtils.copyProperties(pacienteDto, pacienteModel);
-            return ResponseEntity.status(HttpStatus.CREATED).body(pacienteInterface.save(pacienteModel));
+            return ResponseEntity.status(HttpStatus.CREATED).body(pacienteRepository.save(pacienteModel));
         }
 
         @GetMapping
     public ResponseEntity<List<PacienteModel>> getAllPacientesProjecao() {
-            return ResponseEntity.status(HttpStatus.OK).body(pacienteInterface.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.findAll());
     }
 
 }

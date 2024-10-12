@@ -7,7 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "atendimento")
@@ -49,8 +50,6 @@ public class AtendimentoModel {
 
     @Column(name = "Status", nullable = false, length = 1)
     private char status;
-
-
 
 
 }

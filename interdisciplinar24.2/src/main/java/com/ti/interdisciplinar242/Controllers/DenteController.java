@@ -1,6 +1,6 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.Interfaces.DenteInterface;
+import com.ti.interdisciplinar242.repository.DenteRepository;
 import com.ti.interdisciplinar242.Models.DenteModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +18,11 @@ import java.util.Optional;
 public class DenteController {
 
     @Autowired
-    DenteInterface denteInterface;
+    DenteRepository denteRepository;
 
     @GetMapping
     public ResponseEntity<List<DenteModel>> getAllDente(){
-         return ResponseEntity.status(HttpStatus.OK).body(denteInterface.findAll());
+         return ResponseEntity.status(HttpStatus.OK).body(denteRepository.findAll());
     }
 
     /*@GetMapping("/{codDente}")
@@ -32,7 +32,7 @@ public class DenteController {
 
     @GetMapping("/{codDente}")
     public ResponseEntity<Object> getDenteById(@PathVariable(value = "codDente")Integer codDente){
-        Optional<DenteModel> dente = denteInterface.findById(codDente);
+        Optional<DenteModel> dente = denteRepository.findById(codDente);
         if (dente.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("o não encontrado😢");
         }

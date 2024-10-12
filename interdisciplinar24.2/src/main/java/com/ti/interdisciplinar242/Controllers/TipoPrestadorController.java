@@ -1,7 +1,7 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.DTOs.TipoPrestadorDto;
-import com.ti.interdisciplinar242.Interfaces.TipoPrestadorInterface;
+import com.ti.interdisciplinar242.Controllers.DTOs.TipoPrestadorDto;
+import com.ti.interdisciplinar242.repository.TipoPrestadorRepository;
 import com.ti.interdisciplinar242.Models.TipoPrestadorModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/tipoprestador")
@@ -19,7 +18,7 @@ import java.util.UUID;
 public class TipoPrestadorController {
 
     @Autowired
-    private TipoPrestadorInterface tipoPrestadorInterface;
+    private TipoPrestadorRepository tipoPrestadorRepository;
 
     @PostMapping
     public ResponseEntity<TipoPrestadorModel> criarTipoPrestador(@RequestBody @Valid TipoPrestadorDto tipoPrestadorDto) {
@@ -29,18 +28,18 @@ public class TipoPrestadorController {
 
         // Removido a lógica que vincula o Prestador
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(tipoPrestadorInterface.save(tipoPrestadorModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(tipoPrestadorRepository.save(tipoPrestadorModel));
     }
 
     @GetMapping
     public ResponseEntity<List<TipoPrestadorModel>> listarTiposPrestadores() {
-        List<TipoPrestadorModel> tiposPrestadores = tipoPrestadorInterface.findAll();
+        List<TipoPrestadorModel> tiposPrestadores = tipoPrestadorRepository.findAll();
         return ResponseEntity.ok(tiposPrestadores);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> buscarTipoPrestador(@PathVariable(value = "id") Integer id) {
-        Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorInterface.findById(id);
+        Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorRepository.findById(id);
         if (tipoPrestador.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de Prestador não encontrado.");
         }
@@ -50,7 +49,7 @@ public class TipoPrestadorController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> atualizarTipoPrestador(@PathVariable(value = "id") Integer id,
                                                          @RequestBody @Valid TipoPrestadorDto tipoPrestadorDto) {
-        Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorInterface.findById(id);
+        Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorRepository.findById(id);
         if (tipoPrestador.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de Prestador não encontrado.");
         }
@@ -60,16 +59,16 @@ public class TipoPrestadorController {
 
         // Removido a lógica que vincula o Prestador
 
-        return ResponseEntity.ok(tipoPrestadorInterface.save(tipoPrestadorModel));
+        return ResponseEntity.ok(tipoPrestadorRepository.save(tipoPrestadorModel));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletarTipoPrestador(@PathVariable(value = "id") Integer id) {
-        Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorInterface.findById(id);
+        Optional<TipoPrestadorModel> tipoPrestador = tipoPrestadorRepository.findById(id);
         if (tipoPrestador.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tipo de Prestador não encontrado.");
         }
-        tipoPrestadorInterface.delete(tipoPrestador.get());
+        tipoPrestadorRepository.delete(tipoPrestador.get());
         return ResponseEntity.status(HttpStatus.OK).body("Tipo de Prestador deletado com sucesso.");
     }
 }

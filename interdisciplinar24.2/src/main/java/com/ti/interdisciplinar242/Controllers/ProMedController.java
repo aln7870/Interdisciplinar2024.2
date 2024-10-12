@@ -1,14 +1,14 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.DTOs.ProMedDto;
-import com.ti.interdisciplinar242.Interfaces.ProMedInterface;
+import com.ti.interdisciplinar242.Controllers.DTOs.ProMedDto;
+import com.ti.interdisciplinar242.repository.ProMedRepository;
 import com.ti.interdisciplinar242.Models.DenteModel;
 import com.ti.interdisciplinar242.Models.ProMedModel;
 import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import com.ti.interdisciplinar242.Models.ProcedimentoModel;
-import com.ti.interdisciplinar242.Interfaces.AtendimentoInterface;
-import com.ti.interdisciplinar242.Interfaces.DenteInterface;
-import com.ti.interdisciplinar242.Interfaces.ProcedimentoInterface;
+import com.ti.interdisciplinar242.repository.AtendimentoRepository;
+import com.ti.interdisciplinar242.repository.DenteRepository;
+import com.ti.interdisciplinar242.repository.ProcedimentoRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +25,16 @@ import java.util.Optional;
 public class ProMedController {
 
     @Autowired
-    ProMedInterface proMedInterface;
+    ProMedRepository proMedRepository;
 
     @Autowired
-    DenteInterface denteInterface;
+    DenteRepository denteRepository;
 
     @Autowired
-    AtendimentoInterface atendimentoInterface;
+    AtendimentoRepository atendimentoRepository;
 
     @Autowired
-    ProcedimentoInterface procedimentoInterface;
+    ProcedimentoRepository procedimentoRepository;
 
     @PostMapping
     public ResponseEntity<ProMedModel> cadastroProMed(@RequestBody @Valid ProMedDto proMedDto) {
@@ -44,7 +44,7 @@ public class ProMedController {
         BeanUtils.copyProperties(proMedDto, proMedModel);
 
         // Buscar Dente
-        Optional<DenteModel> dente = denteInterface.findById(proMedDto.codDente());
+        Optional<DenteModel> dente = denteRepository.findById(proMedDto.codDente());
         if (dente.isPresent()) {
             proMedModel.setDente(dente.get());
         } else {
@@ -52,7 +52,7 @@ public class ProMedController {
         }
 
         // Buscar Atendimento
-        Optional<AtendimentoModel> atendimento = atendimentoInterface.findById(proMedDto.codAtendim());
+        Optional<AtendimentoModel> atendimento = atendimentoRepository.findById(proMedDto.codAtendim());
         if (atendimento.isPresent()) {
             proMedModel.setAtendimento(atendimento.get());
         } else {
@@ -60,7 +60,7 @@ public class ProMedController {
         }
 
         // Buscar Procedimento
-        Optional<ProcedimentoModel> procedimento = procedimentoInterface.findById(proMedDto.codProcedimento());
+        Optional<ProcedimentoModel> procedimento = procedimentoRepository.findById(proMedDto.codProcedimento());
         if (procedimento.isPresent()) {
             proMedModel.setProcedimento(procedimento.get());
         } else {
@@ -68,17 +68,17 @@ public class ProMedController {
         }
 
         // Salva o ProMed
-        return ResponseEntity.status(HttpStatus.CREATED).body(proMedInterface.save(proMedModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(proMedRepository.save(proMedModel));
     }
 
     @GetMapping
     public ResponseEntity<List<ProMedModel>> listarTodosProMed() {
-        return ResponseEntity.status(HttpStatus.OK).body(proMedInterface.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(proMedRepository.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> puxarUmProMed(@PathVariable(value = "id") Integer id) {
-        Optional<ProMedModel> proMed = proMedInterface.findById(id);
+        Optional<ProMedModel> proMed = proMedRepository.findById(id);
         if (proMed.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ProMed não encontrado.");
         }
@@ -88,23 +88,23 @@ public class ProMedController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> atualizaProMed(@PathVariable(value = "id") Integer id,
                                                  @RequestBody @Valid ProMedDto proMedDto) {
-        Optional<ProMedModel> proMed = proMedInterface.findById(id);
+        Optional<ProMedModel> proMed = proMedRepository.findById(id);
         if (proMed.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ProMed não encontrado.");
         }
 
         var proMedModel = proMed.get();
         BeanUtils.copyProperties(proMedDto, proMedModel);
-        return ResponseEntity.status(HttpStatus.OK).body(proMedInterface.save(proMedModel));
+        return ResponseEntity.status(HttpStatus.OK).body(proMedRepository.save(proMedModel));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletaProMed(@PathVariable(value = "id") Integer id) {
-        Optional<ProMedModel> proMed = proMedInterface.findById(id);
+        Optional<ProMedModel> proMed = proMedRepository.findById(id);
         if (proMed.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ProMed não encontrado.");
         }
-        proMedInterface.delete(proMed.get());
+        proMedRepository.delete(proMed.get());
         return ResponseEntity.status(HttpStatus.OK).body("ProMed deletado com sucesso.");
     }
 }

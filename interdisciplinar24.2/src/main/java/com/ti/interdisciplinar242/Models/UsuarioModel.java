@@ -1,20 +1,11 @@
 package com.ti.interdisciplinar242.Models;
 
-import com.ti.interdisciplinar242.Enums.UsuarioEnum;
+
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -50,7 +41,12 @@ public class UsuarioModel{
     private String senha;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<RoleModel> roles;
+    @JoinTable(
+            name = "tb_user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 /*
     @Column(unique = true,length = 100)
     private String email;
@@ -77,11 +73,5 @@ public class UsuarioModel{
         }
     }
 */
-    public UsuarioModel(String login, String senha, Set<RoleModel> roles){
-        this.login = login;
-        this.senha = senha;
-        this.roles = roles;
-    }
-
 
 }

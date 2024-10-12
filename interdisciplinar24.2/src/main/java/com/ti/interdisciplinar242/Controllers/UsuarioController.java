@@ -1,61 +1,57 @@
 package com.ti.interdisciplinar242.Controllers;
 
-import com.ti.interdisciplinar242.DTOs.AuthenticationDto;
-import com.ti.interdisciplinar242.DTOs.Usuarioteste;
-import com.ti.interdisciplinar242.Interfaces.RoleInterface;
-import com.ti.interdisciplinar242.Interfaces.UsuarioInterface;
-import com.ti.interdisciplinar242.Models.RoleModel;
-import com.ti.interdisciplinar242.Models.UsuarioModel;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
+import com.ti.interdisciplinar242.Controllers.DTOs.UsuarioDto;
+import com.ti.interdisciplinar242.Models.Role;
+
+import com.ti.interdisciplinar242.repository.RoleRepository;
+import com.ti.interdisciplinar242.repository.UsuarioRepository;
+import com.ti.interdisciplinar242.Models.UsuarioModel;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Set;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 
+    @Autowired
+    UsuarioRepository usuarioRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    AuthenticationManager authenticationManager;
+    RoleRepository roleRepository;
 
-    @Autowired
-    UsuarioInterface usuarioInterface;
-
-    @Autowired
-    RoleInterface roleRerpository;
-
-    @PostMapping("/login")
-    public ResponseEntity<UsuarioModel> login(@RequestBody @Valid AuthenticationDto authenticationDto){
-        var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDto.login(), authenticationDto.senha());
-        System.out.println(usernamePassword);
-        var auth = authenticationManager.authenticate(usernamePassword);
-
-        return ResponseEntity.ok().build();
+    @Transactional
+    @PostMapping
+    public ResponseEntity<UsuarioModel> saveUser(@RequestBody @Valid UsuarioDto usuarioDto){
+        var role = roleRepository.findByName(Role.values.USER.name());
+        var user = new UsuarioModel();
+        BeanUtils.copyProperties(usuarioDto, user);
+        user.setSenha(passwordEncoder.encode(usuarioDto.senha()));
+        user.setRoles(Set.of(role));
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(user));
     }
 
-    @PostMapping("/cadastro")
-    public ResponseEntity<UsuarioModel> register(@RequestBody @Valid Usuarioteste usuarioteste){
-        if(this.usuarioInterface.findByLogin(usuarioteste.login())!= null) return ResponseEntity.badRequest().build();
-        var ROLE_USER = roleRerpository.findById(RoleModel.Values.USER.id()).orElseThrow(() -> new RuntimeException("role nao encontrada"));
-
-        String encode = new BCryptPasswordEncoder().encode(usuarioteste.senha());
-        UsuarioModel usuarioModel = new UsuarioModel(usuarioteste.login(), encode, Set.of(ROLE_USER));
-        this.usuarioInterface.save(usuarioModel);
-        return ResponseEntity.ok().build();
-
+    @GetMapping
+    //PERMITINDO QUE SOMENTE ADMINS POSSAM DAR GETALL
+    //   @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
+    public ResponseEntity<Object> getAllUsers(){
+        List<UsuarioModel> users = usuarioRepository.findAll();
+        if (users.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhum usuario registrado.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
 

@@ -1,0 +1,24 @@
+primeiro cria uma pasta chamada certs dentro de resources
+depois abre um terminal no intellij
+do lado de local vai ter um icone de "+" e seta pra baixo, clica na seta e seleciona git bash
+dentro do git dale o comando a seguir
+ cd src/main/resources/certs/ e da enter
+ agora tu vai criar as chaves publicas e privadas com o seguinte comando
+
+ openssl req -newkey rsa:2048 -x509 -keyout private-encrypted.key -out public-key.pub -sha256 -days 365
+
+ vai pedir pra tu colocar uma senha de no minimo 4 digitos, dps de colocar e confirmar é só da enter infinito no resto dos bag
+
+ agora tu ja tem as keys necessarias, basta descriptografar a privada, pra isso usa o seguinte comando
+
+  openssl pkcs8 -in private-encrypted.key -out private.key
+
+  dps disso deixa apenas os arquivos "private.key" e "public-key.pub"
+
+  após isso abre a porra do teu application properties e cola a merda dos comandos
+
+  jwt.public.key=classpath:/certs/public-key.pub
+  jwt.private.key=classpath:/certs/private.key
+
+
+  pronto, agora a porra da api vai conseguir criar tokens com a tua chave e sexo, fui😴✌🏻
