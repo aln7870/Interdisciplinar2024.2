@@ -2,8 +2,10 @@ package com.ti.interdisciplinar242.Controllers;
 
 import com.ti.interdisciplinar242.Controllers.DTOs.AtendimentoDto;
 import com.ti.interdisciplinar242.Models.DenteModel;
+import com.ti.interdisciplinar242.Models.PacienteModel;
 import com.ti.interdisciplinar242.repository.AtendimentoRepository;
 import com.ti.interdisciplinar242.repository.DenteRepository;
+import com.ti.interdisciplinar242.repository.PacienteRepository;
 import com.ti.interdisciplinar242.repository.PrestadorRepository;
 import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import com.ti.interdisciplinar242.Models.PrestadorModel;
@@ -32,13 +34,18 @@ public class AtendimentoController {
     PrestadorRepository prestadorRepository;
     @Autowired
     DenteRepository denteRepository;
+    @Autowired
+    PacienteRepository pacienteRepository;
 
     @PostMapping
     public ResponseEntity<AtendimentoModel> criarAtendimento(@RequestBody @Valid AtendimentoDto atendimentoDto) {
         PrestadorModel prestador = prestadorRepository.findById(atendimentoDto.codPrestador())
                 .orElseThrow(() -> new EntityNotFoundException("Prestador não encontrado."));
-
+        // Busca o paciente
+        PacienteModel paciente = pacienteRepository.findById(atendimentoDto.codPaciente())
+                .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado."));
         AtendimentoModel atendimento = new AtendimentoModel();
+        atendimento.setPaciente(paciente);
         atendimento.setDataAtendimento(atendimentoDto.dataAtendimento());
         atendimento.setObservacoes(atendimentoDto.observacoes());
         atendimento.setTipoStatus(atendimentoDto.tipoStatus());
