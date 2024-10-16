@@ -22,10 +22,10 @@ public class AtendimentoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer CodAtendimento;
 
-//    @ManyToOne
-//    @JoinColumn(name = "CodPaciente", nullable = false)
-//    private PacienteModel paciente;
-//
+    @ManyToOne
+    @JoinColumn(name = "CodPaciente", nullable = false)
+    private PacienteModel paciente;
+
     @ManyToOne
     @JoinColumn(name = "CodDente")
     private DenteModel dente;

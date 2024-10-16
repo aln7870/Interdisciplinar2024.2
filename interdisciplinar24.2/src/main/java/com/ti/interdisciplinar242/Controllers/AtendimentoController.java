@@ -1,7 +1,9 @@
 package com.ti.interdisciplinar242.Controllers;
 
 import com.ti.interdisciplinar242.Controllers.DTOs.AtendimentoDto;
+import com.ti.interdisciplinar242.Models.DenteModel;
 import com.ti.interdisciplinar242.repository.AtendimentoRepository;
+import com.ti.interdisciplinar242.repository.DenteRepository;
 import com.ti.interdisciplinar242.repository.PrestadorRepository;
 import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import com.ti.interdisciplinar242.Models.PrestadorModel;
@@ -28,6 +30,9 @@ public class AtendimentoController {
     AtendimentoRepository AtendimentoRepository;
     @Autowired
     PrestadorRepository prestadorRepository;
+    @Autowired
+    DenteRepository denteRepository;
+
     @PostMapping
     public ResponseEntity<AtendimentoModel> criarAtendimento(@RequestBody @Valid AtendimentoDto atendimentoDto) {
         PrestadorModel prestador = prestadorRepository.findById(atendimentoDto.codPrestador())
@@ -39,6 +44,11 @@ public class AtendimentoController {
         atendimento.setTipoStatus(atendimentoDto.tipoStatus());
         atendimento.setStatus(atendimentoDto.status());
         atendimento.setPrestador(prestador);
+
+        if (atendimentoDto.codDente() != null) {
+            Optional<DenteModel> dente = denteRepository.findById(atendimentoDto.codDente());
+            dente.ifPresent(atendimento::setDente);  // Se o dente existir, associá-lo ao atendimento
+        }
 
         // Se quiser que a data de atendimento também seja a atual, caso não tenha sido fornecida
         if (atendimento.getDataAtendimento() == null) {
@@ -70,6 +80,10 @@ public class AtendimentoController {
         }
         var atendimentoModel = atendimento.get();
         BeanUtils.copyProperties(atendimentoDto, atendimentoModel);
+        if (atendimentoDto.codDente() != null) {
+            Optional<DenteModel> dente = denteRepository.findById(atendimentoDto.codDente());
+            dente.ifPresent(atendimentoModel::setDente);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(AtendimentoRepository.save(atendimentoModel));
     }
 
