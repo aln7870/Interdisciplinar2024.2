@@ -4,6 +4,11 @@
     <mappings />
     <preferences />
   </component>
+  <component name="DBNavigator.Project.DataEditorManager">
+    <record-view-column-sorting-type value="BY_INDEX" />
+    <value-preview-text-wrapping value="true" />
+    <value-preview-pinned value="false" />
+  </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
@@ -11,8 +16,8 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="75e7a825-9db9-47d4-bb00-6cdf3f67ffc1">
-      <console name="consultorio" type="STANDARD" schema="" session="Main" />
+    <connection id="0ac4552f-51bf-4af4-82bc-fbf05dfb56f7">
+      <console name="Connection" type="STANDARD" schema="" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
@@ -21,9 +26,23 @@
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
+  <component name="DBNavigator.Project.DatabaseSessionManager">
+    <connection id="0ac4552f-51bf-4af4-82bc-fbf05dfb56f7" />
+  </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-actions connection-id="75e7a825-9db9-47d4-bb00-6cdf3f67ffc1" dataset="mysql.engine_cost" active-filter-id="" />
     <filter-actions connection-id="75e7a825-9db9-47d4-bb00-6cdf3f67ffc1" dataset="odontodb.atendimento" active-filter-id="" />
+  </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.MethodExecutionManager">
+    <method-browser />
+    <execution-history>
+      <group-entries value="true" />
+      <execution-inputs />
+    </execution-history>
+    <argument-values-cache />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
@@ -31,9 +50,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="75e7a825-9db9-47d4-bb00-6cdf3f67ffc1" active="true" signed="true">
+      <connection id="0ac4552f-51bf-4af4-82bc-fbf05dfb56f7" active="true" signed="true">
         <database>
-          <name value="consultorio" />
+          <name value="Connection" />
           <description value="" />
           <database-type value="MYSQL" />
           <config-type value="BASIC" />
@@ -44,7 +63,7 @@
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="3306" />
-          <database value="mysql" />
+          <database value="consultorio" />
           <tns-folder value="" />
           <tns-profile value="" />
           <type value="USER_PASSWORD" />
@@ -520,5 +539,9 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
+    <execution-variable-types />
   </component>
 </project>

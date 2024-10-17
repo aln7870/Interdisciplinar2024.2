@@ -1,7 +1,11 @@
 package com.ti.interdisciplinar242.Controllers;
 
 import com.ti.interdisciplinar242.Controllers.DTOs.AtendimentoDto;
+import com.ti.interdisciplinar242.Models.DenteModel;
+import com.ti.interdisciplinar242.Models.PacienteModel;
 import com.ti.interdisciplinar242.repository.AtendimentoRepository;
+import com.ti.interdisciplinar242.repository.DenteRepository;
+import com.ti.interdisciplinar242.repository.PacienteRepository;
 import com.ti.interdisciplinar242.repository.PrestadorRepository;
 import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import com.ti.interdisciplinar242.Models.PrestadorModel;
@@ -28,17 +32,30 @@ public class AtendimentoController {
     AtendimentoRepository AtendimentoRepository;
     @Autowired
     PrestadorRepository prestadorRepository;
+    @Autowired
+    DenteRepository denteRepository;
+    @Autowired
+    PacienteRepository pacienteRepository;
+
     @PostMapping
     public ResponseEntity<AtendimentoModel> criarAtendimento(@RequestBody @Valid AtendimentoDto atendimentoDto) {
         PrestadorModel prestador = prestadorRepository.findById(atendimentoDto.codPrestador())
                 .orElseThrow(() -> new EntityNotFoundException("Prestador não encontrado."));
-
+        // Busca o paciente
+        PacienteModel paciente = pacienteRepository.findById(atendimentoDto.codPaciente())
+                .orElseThrow(() -> new EntityNotFoundException("Paciente não encontrado."));
         AtendimentoModel atendimento = new AtendimentoModel();
+        atendimento.setPaciente(paciente);
         atendimento.setDataAtendimento(atendimentoDto.dataAtendimento());
         atendimento.setObservacoes(atendimentoDto.observacoes());
         atendimento.setTipoStatus(atendimentoDto.tipoStatus());
         atendimento.setStatus(atendimentoDto.status());
         atendimento.setPrestador(prestador);
+
+        if (atendimentoDto.codDente() != null) {
+            Optional<DenteModel> dente = denteRepository.findById(atendimentoDto.codDente());
+            dente.ifPresent(atendimento::setDente);  // Se o dente existir, associá-lo ao atendimento
+        }
 
         // Se quiser que a data de atendimento também seja a atual, caso não tenha sido fornecida
         if (atendimento.getDataAtendimento() == null) {
@@ -70,6 +87,10 @@ public class AtendimentoController {
         }
         var atendimentoModel = atendimento.get();
         BeanUtils.copyProperties(atendimentoDto, atendimentoModel);
+        if (atendimentoDto.codDente() != null) {
+            Optional<DenteModel> dente = denteRepository.findById(atendimentoDto.codDente());
+            dente.ifPresent(atendimentoModel::setDente);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(AtendimentoRepository.save(atendimentoModel));
     }
 

@@ -6,13 +6,13 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 public record AtendimentoDto(
-//                            @NotNull int codPaciente,
-//                             @NotNull int codDente,
+                            @NotNull Integer codPaciente,
                              @NotNull Integer codPrestador,
                              LocalDateTime dataAtendimento,
                              String observacoes,
                              @NotNull TipoStatus tipoStatus,
-                             @NotNull char status) { }
+                             @NotNull char status,
+                             Integer codDente) { }
 
 
 
