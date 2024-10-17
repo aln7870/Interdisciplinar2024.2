@@ -39,10 +39,10 @@ public class UsuarioModel{
     @Column(nullable = false, columnDefinition = "TINYINT UNSIGNED")
     private Integer codUsuario;
 
-    @Column(name = "nome", unique = true,length = 100)
+    @Column(name = "nome", unique = true,length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "login",unique = true,length = 100)
+    @Column(name = "login",unique = true,length = 100, nullable = false)
     private String login;
 
     @Column(nullable = false)
@@ -64,7 +64,7 @@ public class UsuarioModel{
     @Column(unique = true,length = 100)
     private String email;
 
-    @Column(nullable = false, updatable = false)
+    @Column(/*nullable = false,*/ updatable = false)
     @CreationTimestamp
     private LocalDateTime dataCriacao;
 
@@ -74,7 +74,7 @@ public class UsuarioModel{
     @Pattern(regexp = "[AI]")
     private String status = "A";
 
-    @Column(nullable = false, columnDefinition = "TINYINT UNSIGNED")
+    @Column(/*nullable = false,*/ columnDefinition = "TINYINT UNSIGNED")
     private Integer codPrestador;
 
     // validando que por padrão status tera A

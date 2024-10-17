@@ -34,19 +34,19 @@ public class AdminUserConfig implements CommandLineRunner {
 
         var userAdmin = usuarioRepository.findByLogin("ADMIN");
 
-        userAdmin.ifPresentOrElse(
+        userAdmin.ifPresent(
                 //era pra essa bosta inserir um ADMIN no banco mas n ta indo, ent tem que inserir um admin na tab role pra o codigo funcionar tranquilo.
                 // role id = 1, name = ADMIN;
                 (user) -> { System.out.println("admin já existe");
-                },
-                () -> {
-                    var user = new UsuarioModel();
-                    user.setLogin("ADMIN");
-                    user.setSenha(passwordEncoder.encode("123"));
-                    user.setRoles(Set.of(roleAdmin));
-                    usuarioRepository.save(user);
                 }
         );
-
+   /*     if (!userAdmin.equals(null)) {
+                var user = new UsuarioModel();
+                user.setLogin("ADMIN");
+                user.setSenha(passwordEncoder.encode("123"));
+                user.setRoles(Set.of(roleAdmin));
+                usuarioRepository.save(user);
+            System.out.println("adm criado😎");
+            }*/
     }
 }

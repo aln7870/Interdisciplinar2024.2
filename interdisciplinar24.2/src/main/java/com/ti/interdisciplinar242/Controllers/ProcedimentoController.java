@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/procedimento")
 public class ProcedimentoController {
 
     @Autowired

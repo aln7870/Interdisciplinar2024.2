@@ -25,7 +25,6 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
 public class SecurityConfig {
 
     //referenciando as chaves no properties
@@ -40,9 +39,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http.authorizeHttpRequests(authorize -> authorize
-                      //  .requestMatchers(HttpMethod.POST, "/login").permitAll()
-                       // .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
-                        // .requestMatchers(HttpMethod.GET,"/usuario").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
+                         .requestMatchers(HttpMethod.GET,"/usuario").permitAll()
                       //  .anyRequest().authenticated())
                 .anyRequest().permitAll()) //permitindo geral nessa budega
                 .csrf(csrf -> csrf.disable())
