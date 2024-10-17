@@ -2,10 +2,14 @@ package com.ti.interdisciplinar242.Models;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -19,6 +23,7 @@ import java.util.Set;
     CREATE TABLE Usuario (
     CodUsuario TINYINT UNSIGNED AUTO_INCREMENT,
     Nome VARCHAR(100) UNIQUE NOT NULL,
+    //coloquei login,
     Email VARCHAR(100) UNIQUE NOT NULL,
     Senha VARCHAR(255) NOT NULL,
     DataCriacao DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -34,7 +39,10 @@ public class UsuarioModel{
     @Column(nullable = false, columnDefinition = "TINYINT UNSIGNED")
     private Integer codUsuario;
 
-    @Column(name = "nome",unique = true,length = 100)
+    @Column(name = "nome", unique = true,length = 100)
+    private String nome;
+
+    @Column(name = "login",unique = true,length = 100)
     private String login;
 
     @Column(nullable = false)
@@ -47,16 +55,20 @@ public class UsuarioModel{
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
-/*
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+
     @Column(unique = true,length = 100)
     private String email;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime dataCriacao;
-*/
 
-    /*
+
     //testando para o spring aceitar somente A OU I em status
     @Column(nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'A'")
     @Pattern(regexp = "[AI]")
@@ -72,6 +84,6 @@ public class UsuarioModel{
             status = "A";
         }
     }
-*/
+
 
 }
