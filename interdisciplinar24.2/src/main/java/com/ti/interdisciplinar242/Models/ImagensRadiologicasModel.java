@@ -21,6 +21,10 @@ public class ImagensRadiologicasModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codImagemRadiologica;
 
+    @ManyToOne
+    @JoinColumn(name = "codAtendimento")
+    private AtendimentoModel codatendimento;
+
     @Column(nullable = false)
     private String caminho;
 

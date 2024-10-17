@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Entity
@@ -30,9 +31,8 @@ public class AtendimentoModel {
     @JoinColumn(name = "CodDente")
     private DenteModel dente;
 
-    @ManyToOne
-    @JoinColumn(name = "codImagemRadiologica")
-    private ImagensRadiologicasModel imagens;
+    @OneToMany(mappedBy = "codImagemRadiologica")
+    private Set<ImagensRadiologicasModel> imagens;
 
     @ManyToOne
     @JoinColumn(name = "CodPrestador",nullable = false)

@@ -11,6 +11,7 @@ import java.util.UUID;
 public record PrestadorDto(
         @NotBlank String nomePrestador,
         @NotNull char status,
-        @NotBlank String funcao
+        @NotBlank String funcao,
+        Integer usuario
         ) {
 }

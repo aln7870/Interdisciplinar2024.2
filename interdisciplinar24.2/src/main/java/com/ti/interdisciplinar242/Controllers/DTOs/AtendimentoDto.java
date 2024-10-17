@@ -12,7 +12,8 @@ public record AtendimentoDto(
                              String observacoes,
                              @NotNull TipoStatus tipoStatus,
                              @NotNull char status,
-                             Integer codDente) { }
+                             Integer codDente,
+                            Integer imagens) { }
 
 
 

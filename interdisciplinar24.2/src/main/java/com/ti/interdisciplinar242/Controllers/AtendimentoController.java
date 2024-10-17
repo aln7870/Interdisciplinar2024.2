@@ -3,10 +3,7 @@ package com.ti.interdisciplinar242.Controllers;
 import com.ti.interdisciplinar242.Controllers.DTOs.AtendimentoDto;
 import com.ti.interdisciplinar242.Models.DenteModel;
 import com.ti.interdisciplinar242.Models.PacienteModel;
-import com.ti.interdisciplinar242.repository.AtendimentoRepository;
-import com.ti.interdisciplinar242.repository.DenteRepository;
-import com.ti.interdisciplinar242.repository.PacienteRepository;
-import com.ti.interdisciplinar242.repository.PrestadorRepository;
+import com.ti.interdisciplinar242.repository.*;
 import com.ti.interdisciplinar242.Models.AtendimentoModel;
 import com.ti.interdisciplinar242.Models.PrestadorModel;
 import jakarta.persistence.EntityNotFoundException;
@@ -34,6 +31,8 @@ public class AtendimentoController {
     DenteRepository denteRepository;
     @Autowired
     PacienteRepository pacienteRepository;
+    @Autowired
+    ImgRadiologicasRepository imgRadiologicasRepository;
 
     @PostMapping
     public ResponseEntity<AtendimentoModel> criarAtendimento(@RequestBody @Valid AtendimentoDto atendimentoDto) {
@@ -49,6 +48,8 @@ public class AtendimentoController {
         atendimento.setTipoStatus(atendimentoDto.tipoStatus());
         atendimento.setStatus(atendimentoDto.status());
         atendimento.setPrestador(prestador);
+
+
 
         if (atendimentoDto.codDente() != null) {
             Optional<DenteModel> dente = denteRepository.findById(atendimentoDto.codDente());

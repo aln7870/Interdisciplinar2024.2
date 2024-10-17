@@ -35,8 +35,8 @@ public class PrestadorModel {
     @JoinColumn(name = "CodTipoPrestador", nullable = false)
     private TipoPrestadorModel tipoPrestador;
 
-//    @ManyToOne
-//    @JoinColumn(name = "CodUsuario", nullable = false)
-//    private UsuarioModel usuario;
+    @ManyToOne
+    @JoinColumn(name = "CodUsuario")
+    private UsuarioModel usuario;
 
 }

@@ -6,5 +6,6 @@ public record ProMedDto(
         @NotNull String observacao,
         @NotNull Integer codDente,
         @NotNull Integer codAtendim,
-        @NotNull Integer codProcedimento) {
+        @NotNull Integer codProcedimento,
+        @NotNull Integer promed) {
 }
