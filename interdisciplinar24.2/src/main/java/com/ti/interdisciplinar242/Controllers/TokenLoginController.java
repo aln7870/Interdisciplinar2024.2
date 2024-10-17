@@ -13,14 +13,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/login")
 public class TokenLoginController {
@@ -61,10 +60,10 @@ public class TokenLoginController {
         if (user.isEmpty()){
             throw new BadCredentialsException("usuario vazio");
         }
-        System.out.println("chegou ate ADMIN");
-        if (user.get().getLogin().equals("ADMIN") && user.get().getSenha().equals("123")){
+        System.out.println("chegou ate senha");
+   /*     if (user.get().getLogin().equals("ADMIN") && user.get().getSenha().equals("123")){
             return ResponseEntity.ok(new LoginResponse(jwtValue, expiresIn));
-        }
+        }*/
         //NUNCA ESQUEÇA DA DEPENDENCIA VALIDATIONS E DE VALIDAR OS DTOS PQP AAAAAAAAAAAAA
         if (!passwordEncoder.matches(loginRequest.senha(), user.get().getSenha())){
             //(!user.get().isLoginCorrect(loginRequest, passwordEncoder)){
