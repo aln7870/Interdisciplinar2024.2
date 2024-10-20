@@ -14,14 +14,14 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.Instant;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@CrossOrigin("*")
+
 @RestController
 @RequestMapping("/login")
+@CrossOrigin("*")
 public class TokenLoginController {
     @Autowired
     JwtEncoder jwtEncoder;

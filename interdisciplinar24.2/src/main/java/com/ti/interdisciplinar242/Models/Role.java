@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.Query;
 
 @Entity
 @Table(name = "roles")
@@ -31,6 +32,10 @@ public class Role {
 
         values(Long roleId) {
             this.roleId = roleId;
+        }
+
+        public long id(){
+            return roleId;
         }
     }
 

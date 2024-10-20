@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/paciente") // Correção aqui
+@RequestMapping("/paciente")
+@CrossOrigin("*")
 public class PacienteController {
 
     @Autowired
@@ -37,6 +37,7 @@ public class PacienteController {
 
     @GetMapping
     public ResponseEntity<List<PacienteModel>> getAllPacientes() {
+        System.out.println("chamada do get deu boa");
         return ResponseEntity.status(HttpStatus.OK).body(pacienteRepository.findAll());
     }
 

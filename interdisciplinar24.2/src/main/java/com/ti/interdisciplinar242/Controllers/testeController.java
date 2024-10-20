@@ -21,6 +21,7 @@ import java.util.Optional;
 //@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/teste")
+
 public class testeController {
 
     //construtor de outras classes

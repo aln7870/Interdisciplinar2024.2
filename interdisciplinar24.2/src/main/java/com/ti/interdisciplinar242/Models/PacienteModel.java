@@ -35,7 +35,7 @@ PRIMARY KEY (CodPaciente)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "TINYINT UNSIGNED")
+    //@Column(columnDefinition = "TINYINT UNSIGNED")
     private Integer codPaciente;
 
     @Column(length = 100, nullable = false)
@@ -50,7 +50,7 @@ PRIMARY KEY (CodPaciente)
     @Column(length = 14, unique = true)
     private String cpf;
 
-    @Column(length = 14, unique = true)
+    @Column(length = 14)
     private String cpfResponsavel;
 
     @Column(updatable = false)

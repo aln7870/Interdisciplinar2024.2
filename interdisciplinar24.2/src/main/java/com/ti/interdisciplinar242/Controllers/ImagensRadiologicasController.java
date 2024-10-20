@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/img")
+@CrossOrigin("*")
 public class ImagensRadiologicasController {
 
     @Autowired

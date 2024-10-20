@@ -60,7 +60,6 @@ public class UsuarioModel{
         roles.add(role);
     }
 
-
     @Column(unique = true,length = 100)
     private String email;
 

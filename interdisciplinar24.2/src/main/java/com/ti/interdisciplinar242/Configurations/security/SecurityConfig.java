@@ -41,7 +41,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/usuario").permitAll()
-                         .requestMatchers(HttpMethod.GET,"/usuario").permitAll()
+                         .requestMatchers(HttpMethod.GET,"/usuario").permitAll()//.hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/viraradmin").permitAll()//.hasAuthority("ADMIN")
                       //  .anyRequest().authenticated())
                 .anyRequest().permitAll()) //permitindo geral nessa budega
                 .csrf(csrf -> csrf.disable())

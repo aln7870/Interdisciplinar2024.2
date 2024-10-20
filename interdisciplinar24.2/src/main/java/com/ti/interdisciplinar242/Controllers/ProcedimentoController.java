@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/procedimento")
+@CrossOrigin("*")
 public class ProcedimentoController {
 
     @Autowired

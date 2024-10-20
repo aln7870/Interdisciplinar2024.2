@@ -14,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/faturamento")
+@CrossOrigin("*")
 public class FaturamentoController {
 
     @Autowired

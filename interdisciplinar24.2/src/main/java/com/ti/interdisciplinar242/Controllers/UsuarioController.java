@@ -49,8 +49,6 @@ public class UsuarioController {
     }
 
     @GetMapping
-    //PERMITINDO QUE SOMENTE ADMINS POSSAM DAR GETALL
-    //@PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     public ResponseEntity<Object> getAllUsers(){
         List<UsuarioModel> users = usuarioRepository.findAll();
         if (users.isEmpty()){
@@ -58,6 +56,17 @@ public class UsuarioController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
+
+    @PutMapping("/viraradmin/{codUsuario}")
+    public ResponseEntity<Void> virarAdmin(@PathVariable(value = "codUsuario") Integer codUsuario){
+        var ROLE_ADMIN = roleRepository.findById(Role.values.ADMIN.id()).orElseThrow(() -> new RuntimeException("Role ADMIN não encontrada"));
+        var user = usuarioRepository.findById(codUsuario).orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        user.addRole(ROLE_ADMIN);
+        usuarioRepository.save(user);
+        return ResponseEntity.status(HttpStatus.OK).build();
+
+    }
+
 /*
     @PutMapping("/{codUsuario}")
     public  ResponseEntity<Object> atualizaUsuario(@PathVariable(value = "codUsuario") Integer codUsuario,
