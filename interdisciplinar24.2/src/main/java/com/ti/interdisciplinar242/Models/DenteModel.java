@@ -24,6 +24,9 @@ public class DenteModel implements Serializable {
     @Column(nullable = false)
     private String nomeDente;
 
+    @Column(name = "NumeroDente")
+    private int numeroDentel;
+
     @Column(nullable = false, length = 1, columnDefinition = "CHAR(1) DEFAULT 'A'")
     @Pattern(regexp = "[AI]")
     private String status = "A";

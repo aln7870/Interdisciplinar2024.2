@@ -11,7 +11,6 @@ public record AtendimentoDto(
                              LocalDateTime dataAtendimento,
                              String observacoes,
                              @NotNull TipoStatus tipoStatus,
-                             @NotNull char status,
                              Integer codDente,
                             Integer imagens) { }
 

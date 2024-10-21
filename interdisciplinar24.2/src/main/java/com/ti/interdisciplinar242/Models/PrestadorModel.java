@@ -29,8 +29,9 @@ public class PrestadorModel {
     @Column(name = "DataCriacao",nullable = false)
     private LocalDateTime datacriacao;
 
-    @Column(name = "Status",nullable = false)
+    @Column(name = "Status",nullable = false, columnDefinition = "CHAR(1) DEFAULT 'A'")
     private char status;
+
     @ManyToOne
     @JoinColumn(name = "CodTipoPrestador", nullable = false)
     private TipoPrestadorModel tipoPrestador;

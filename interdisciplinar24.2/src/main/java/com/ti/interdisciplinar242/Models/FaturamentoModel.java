@@ -16,6 +16,7 @@ public class FaturamentoModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer codFaturamento;
+
     @Column(nullable = false)
     private BigDecimal valor;
     //chave estrangeira da tabelo Atendimento

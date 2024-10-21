@@ -36,6 +36,7 @@ public class AtendimentoController {
 
     @PostMapping
     public ResponseEntity<AtendimentoModel> criarAtendimento(@RequestBody @Valid AtendimentoDto atendimentoDto) {
+
         PrestadorModel prestador = prestadorRepository.findById(atendimentoDto.codPrestador())
                 .orElseThrow(() -> new EntityNotFoundException("Prestador não encontrado."));
         // Busca o paciente
@@ -46,7 +47,6 @@ public class AtendimentoController {
         atendimento.setDataAtendimento(atendimentoDto.dataAtendimento());
         atendimento.setObservacoes(atendimentoDto.observacoes());
         atendimento.setTipoStatus(atendimentoDto.tipoStatus());
-        atendimento.setStatus(atendimentoDto.status());
         atendimento.setPrestador(prestador);
 
 

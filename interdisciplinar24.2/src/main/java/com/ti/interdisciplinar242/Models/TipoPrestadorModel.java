@@ -26,7 +26,7 @@ public class TipoPrestadorModel {
     @Column(name = "Funcao", nullable = false)
     private String funcao;
 
-    @Column(name = "Status", nullable = false)
+    @Column(name = "Status", nullable = false, columnDefinition = "CHAR(1) DEFAULT 'A'")
     private char status;
 
     @OneToMany(mappedBy = "tipoPrestador", cascade = CascadeType.ALL)

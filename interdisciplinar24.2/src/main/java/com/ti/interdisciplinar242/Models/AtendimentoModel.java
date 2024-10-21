@@ -48,8 +48,6 @@ public class AtendimentoModel {
     @Column(name = "TipoStatus", nullable = false)
     private TipoStatus tipoStatus;
 
-    @Column(name = "Status", nullable = false, length = 1)
-    private char status;
 
 
 }
